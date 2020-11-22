@@ -45,8 +45,19 @@ def one_vs_all(X, y, num_labels, lam):
     """
 
     all_theta = np.zeros((num_labels, n + 1))  # 10 x 401
+    x = np.c_[np.ones((m, 1)), X]  # 5000 x 401
 
-    return all_theta
+    trained_theta = []
+
+    for i in range(0, num_labels):
+        theta_i = all_theta[i, :]
+        y_i = y == (i + 1)
+        args = (x, y_i, lam)
+
+        trained_theta_i = optimize.fmin_cg(f=cost, fprime=grad, x0=theta_i, args=args, maxiter=50)
+        trained_theta.append(trained_theta_i)
+
+    return np.array(trained_theta)
 
 
 def cost(theta, *args):

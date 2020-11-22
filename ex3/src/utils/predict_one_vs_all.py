@@ -29,4 +29,15 @@ def predict_one_vs_all(all_theta, X):
     p = []
     x = np.c_[np.ones((m, 1)), X]
 
-    return np.zeros(m)
+    for i in range(0, m):
+        tmp = []
+
+        for j in range(0, num_labels):
+            p_ij = np.matmul(x[i], all_theta[j].T)
+            tmp.append(p_ij)
+
+        #  index 0 means it's in class 1
+        p.append(np.argmax(tmp) + 1)
+
+    return p
+

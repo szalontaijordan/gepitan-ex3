@@ -51,4 +51,29 @@ def lr_cost_function(theta, x, y, lam, alpha=1):
           ```
     """
 
-    return 0, np.zeros(np.size(theta))
+    # Hypothesis (z)
+    hx = np.matmul(x, theta)
+    hx = sigmoid(hx)
+
+    # Regularization
+    # excluding the bias (theta[0])
+    theta_tmp = theta
+    theta_tmp[0] = 0
+    reg = lam/2 * np.sum(theta_tmp ** 2)
+
+    # Cost
+    cost = np.sum(-1 * y * np.log(hx) - (1 - y) * np.log(1 - hx))
+    cost = (cost + reg) / m
+
+    # Calculate gradients
+    grad = np.dot(x.T, hx - y)
+    grad = grad / m
+    grad = grad * alpha
+
+    # adding regularization to gradient
+    grad_reg = lam/m * theta_tmp
+
+    grad = grad + grad_reg
+
+    return cost, grad
+

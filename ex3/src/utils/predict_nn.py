@@ -25,7 +25,11 @@ def predict_nn(theta1, theta2, X):
           p = np.argmax(output, axis=1)  #  returns a vector with the index of each column's maximum element
           ```
     """
+    i1 = np.matmul(np.c_[np.ones((m, 1)), X], theta1.T)
+    o1 = sigmoid(i1)
+
+    i2 = np.matmul(np.c_[np.ones((m, 1)), o1], theta2.T)
+    o2 = sigmoid(i2);
 
     #  index 0 means it's in class 1
-    p = np.zeros(m)
-    return p
+    return np.argmax(o2, axis=1) + 1
