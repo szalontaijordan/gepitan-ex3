@@ -13,5 +13,5 @@ setup(
        'matplotlib',
        'opencv-python'
    ],
-   scripts=['main']
+   scripts=[]
 )
